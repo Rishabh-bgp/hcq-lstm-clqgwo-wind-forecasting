@@ -2,7 +2,7 @@
 
 # HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimizer (Reference Implementation)
 
-[![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-b3121b)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
+[![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-b3121b)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![CI](https://github.com/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/actions/workflows/ci.yml/badge.svg)](https://github.com/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/actions/workflows/ci.yml) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
 
 > **Reference implementation.** This is the reference implementation of my paper (Rishabh Aryan), rebuilt in Python on synthetic data because the original SCADA data is confidential. Results will differ from the published numbers. Authors: Rishabh Aryan (sole author). All quantum components run **on a classical simulator only** (PennyLane `default.qubit`, CPU, 4 qubits, 1 layer per gate by default).
 > Results from this code **will differ** from the published results, and the numbers reported in the paper have **not** been reproduced here.
