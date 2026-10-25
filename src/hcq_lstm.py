@@ -26,10 +26,10 @@ class HCQLSTM(nn.Module):
         return self.head(h).squeeze(-1)
 
 def physics_loss(lam_log=0.01, lam_mom=0.01, lam_spec=0.01):
-    """Simplified physics penalties (in standardised units):
+    """Simplified physics penalties (in standardized units):
     log-law: forecasts should stay consistent with the last observed speed scaled by a log wall-layer ratio (single hub height => ratio 1);
-    momentum: penalise unphysically large one-step accelerations;
-    spectral: penalise deviation of the batch forecast-increment spectrum slope from Kolmogorov -5/3."""
+    momentum: penalize unphysically large one-step accelerations;
+    spectral: penalize deviation of the batch forecast-increment spectrum slope from Kolmogorov -5/3."""
     def f(model, X, p):
         last = X[:, -1, 0]
         l_log = torch.mean((p - last) ** 2) * 0.1
@@ -55,9 +55,9 @@ def levy(d, rng, beta=1.5):
     return rng.normal(0, s, d) / np.abs(rng.normal(0, 1, d)) ** (1 / beta)
 
 def clqgwo(obj, lb, ub, n_wolves=5, iters=4, seed=0, verbose=True):
-    """Chaotic Levy-flight Quantum-inspired Grey Wolf Optimiser (minimisation over a box)."""
+    """Chaotic Levy-flight Quantum-inspired Grey Wolf Optimizer (minimisation over a box)."""
     rng = np.random.default_rng(seed); lb, ub = np.array(lb, float), np.array(ub, float); d = len(lb)
-    X = lb + tent_map(n_wolves, d, rng) * (ub - lb)                      # chaotic initialisation
+    X = lb + tent_map(n_wolves, d, rng) * (ub - lb)                      # chaotic initialization
     theta = rng.uniform(0, np.pi / 2, (n_wolves, d))                     # qubit angles
     fit = np.array([obj(x) for x in X])
     for t in range(iters):
