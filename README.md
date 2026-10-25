@@ -1,5 +1,7 @@
 # HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimiser (Reimplementation)
 
+[![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-2ec4b6)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
+
 > **Independent reimplementation.** This repository is a clean, independent reimplementation of the method described in the
 > paper cited below, written from the paper's text. It is **not** the original authors' code, and it does **not** use the
 > paper's dataset. All quantum components run **on a classical simulator only** (PennyLane `default.qubit`, CPU, 4 qubits, 1 layer per gate by default).
@@ -77,6 +79,22 @@ end to end. They say nothing about the method's real accuracy. At this budget th
 | RMSE | 0.983 | 0.413 |
 | MAPE (%) | 14.994 | 5.587 |
 | R² | -0.157 | 0.798 |
+
+## Live demo
+
+**[https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/)** runs entirely in your browser. A small version of the model (trained briefly on the bundled synthetic CSV to predict the 10-minute change in wind speed) is exported to JSON by `web/export_model.py`, and its forward pass is re-implemented in plain JavaScript (`site/model.js`), including a small statevector simulator for the quantum circuit. `tests/test_js_parity.py` checks that the JS and PyTorch predictions agree within 1e-4. The page shows a forecast chart against persistence, sliders for wind inputs, the metrics and the disclaimer.
+
+![Live demo screenshot](docs/img/demo.png)
+
+## Notebook
+
+[`notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb`](notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb) is a short, beginner-friendly walkthrough: load the synthetic CSV, quick EDA plots, a small version of the model, brief training and a comparison with a persistence baseline. It works when opened on its own in Colab (it fetches the repo code and data). It uses **synthetic data only** and does **not** reproduce the paper's results.
+
+## Tests
+
+```bash
+pytest -q
+```
 
 ## Repository layout
 
