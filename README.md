@@ -1,4 +1,4 @@
-<p align="center"><img src="docs/img/banner.svg" alt="HCQ-LSTM + CLQGWO Wind Forecasting: Daoist-style banner, reference implementation by Rishabh Aryan" width="100%"></p>
+<p align="center"><img src="docs/img/banner.png" alt="HCQ-LSTM + CLQGWO Wind Forecasting: Daoist-style banner, reference implementation by Rishabh Aryan" width="100%"></p>
 
 # HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimizer (Reference Implementation)
 
