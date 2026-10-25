@@ -1,3 +1,5 @@
+<p align="center"><img src="docs/img/banner.svg" alt="HCQ-LSTM + CLQGWO Wind Forecasting: Daoist-style banner, independent reimplementation by Rishabh Aryan" width="100%"></p>
+
 # HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimiser (Reimplementation)
 
 [![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-2ec4b6)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
@@ -9,13 +11,13 @@
 
 **Keywords:** physics-informed neural network, quantum LSTM, hybrid classical-quantum, grey wolf optimizer, Lévy flight, chaotic map, metaheuristic, Kolmogorov spectrum, wind speed forecasting, PennyLane, PyTorch
 
-## Paper
+## Paper · 論文
 
 Rishabh Aryan, "Physics-Informed Hybrid Classical–Quantum LSTM Network for Wind Speed Forecasting, Optimized via a Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Metaheuristic," *Dianwang Jishu / Power System Technology*, Vol. 50, Issue 3, pp. 245–279, July 2026.
 
 Full credit for the method goes to the paper's authors. Any simplifications or mistakes in this reimplementation are mine.
 
-## Method
+## Method · 方法
 
 1. **HCQ-LSTM cell:** a standard LSTM cell in which each of the four gates (input, forget, output, candidate) gets an extra term from its own small variational quantum circuit (angle encoding, RY/RZ, CNOT ring, ⟨Z⟩ read-out, then a linear map back to the hidden size).
 2. **Physics-informed loss:** MSE plus three simplified penalties: a log-law consistency term (with a single hub height it reduces to staying close to the last observed speed), a mean-momentum term penalising unphysically large one-step accelerations, and a **spectral term** pushing the log-log slope of the forecast power spectrum toward Kolmogorov's −5/3.
@@ -23,7 +25,7 @@ Full credit for the method goes to the paper's authors. Any simplifications or m
 
 These physics terms are simplified versions of the paper's; they are documented in `src/hcq_lstm.py`.
 
-## Architecture
+## Architecture · 架構
 
 ```
 for t in 1..T:  z=[x_t, h]
@@ -34,7 +36,7 @@ loss = MSE + λ1·L_log + λ2·L_mom + λ3·L_spec(−5/3)
 CLQGWO → (hidden, lr, λ1, λ2, λ3)
 ```
 
-## Data
+## Data · 數據
 
 The original SCADA data used in the paper is confidential and **not publicly available**, so it is not included here (everything in `data/` except the bundled synthetic CSV is git-ignored). The original code was not available either.
 `src/data.py` provides:
@@ -52,7 +54,7 @@ The original SCADA data used in the paper is confidential and **not publicly ava
 Features per time step are wind speed, sin/cos of direction, theoretical power and active power (kW/1000), standardised
 on the training split. The target is wind speed `horizon` steps ahead. The data is split chronologically 70/15/15.
 
-## How to run
+## How to run · 運行
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -68,7 +70,7 @@ python train.py --csv path/to/scada.csv --epochs 30 --tune --wolves 8 --iters 10
 The script prints and saves (`results/*_metrics.json`) **MAE, RMSE, MAPE and R²** on the chronological test split, plus a
 naive persistence baseline for comparison. MAPE uses a 0.5 m/s floor in the denominator so calm periods don't blow it up.
 
-## Smoke-test results (synthetic data only)
+## Smoke-test results (synthetic data only) · 測試
 
 These come from a deliberately tiny run (CLQGWO with 3 wolves × 2 iterations (1 epoch each), then 2 training epochs, 600 synthetic rows, look-back 12, seed 42) on **synthetic data**, just to check that the pipeline works
 end to end. They say nothing about the method's real accuracy. At this budget the model has not converged and is **worse than persistence**.
@@ -80,23 +82,23 @@ end to end. They say nothing about the method's real accuracy. At this budget th
 | MAPE (%) | 14.994 | 5.587 |
 | R² | -0.157 | 0.798 |
 
-## Live demo
+## Live demo · 演示
 
 **[https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/)** runs entirely in your browser. A small version of the model (trained briefly on the bundled synthetic CSV to predict the 10-minute change in wind speed) is exported to JSON by `web/export_model.py`, and its forward pass is re-implemented in plain JavaScript (`site/model.js`), including a small statevector simulator for the quantum circuit. `tests/test_js_parity.py` checks that the JS and PyTorch predictions agree within 1e-4. The page shows a forecast chart against persistence, sliders for wind inputs, the metrics and the disclaimer.
 
 ![Live demo screenshot](docs/img/demo.png)
 
-## Notebook
+## Notebook · 筆記本
 
 [`notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb`](notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb) is a short, beginner-friendly walkthrough: load the synthetic CSV, quick EDA plots, a small version of the model, brief training and a comparison with a persistence baseline. It works when opened on its own in Colab (it fetches the repo code and data). It uses **synthetic data only** and does **not** reproduce the paper's results.
 
-## Tests
+## Tests · 測試
 
 ```bash
 pytest -q
 ```
 
-## Repository layout
+## Repository layout · 結構
 
 ```
 ├── train.py              # train + evaluate (MAE/RMSE/MAPE/R²)
@@ -110,18 +112,18 @@ pytest -q
 ├── requirements.txt  LICENSE  .gitignore
 ```
 
-## Limitations
+## Limitations · 局限
 
 - The paper's Kaimal-spectrum synthetic ABL benchmark is not reproduced; this repo uses the simpler generator in `src/data.py`.
 - The quantum-measurement-ensemble uncertainty procedure and Wilcoxon tests are not implemented.
 - Four VQCs per time step make training slow; keep look-back and data small on CPU.
 - Simulated quantum circuits scale exponentially with qubit count, so the defaults use few qubits. Larger settings will be slow on CPU.
 
-## Licence
+## Licence · 許可
 
 MIT © 2026 Rishabh Aryan. See [LICENSE](LICENSE). The paper itself remains under its publisher's terms.
 
-## Other repositories by Rishabh Aryan
+## Other repositories by Rishabh Aryan · 其他
 
 - [beed-ml-study](https://github.com/Rishabh-bgp/beed-ml-study)
 - [pan-cancer-classification](https://github.com/Rishabh-bgp/pan-cancer-classification)
