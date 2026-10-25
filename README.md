@@ -1,12 +1,10 @@
-<p align="center"><img src="docs/img/banner.svg" alt="HCQ-LSTM + CLQGWO Wind Forecasting: Daoist-style banner, independent reimplementation by Rishabh Aryan" width="100%"></p>
+<p align="center"><img src="docs/img/banner.svg" alt="HCQ-LSTM + CLQGWO Wind Forecasting: Daoist-style banner, reference implementation by Rishabh Aryan" width="100%"></p>
 
-# HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimiser (Reimplementation)
+# HCQ-LSTM + CLQGWO: Physics-Informed Hybrid Classical-Quantum LSTM with Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Optimizer (Reference Implementation)
 
-[![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-2ec4b6)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
+[![Live demo](https://img.shields.io/badge/Live%20demo-GitHub%20Pages-b3121b)](https://rishabh-bgp.github.io/hcq-lstm-clqgwo-wind-forecasting/) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Rishabh-bgp/hcq-lstm-clqgwo-wind-forecasting/blob/main/notebooks/hcq-lstm-clqgwo-wind-forecasting_walkthrough.ipynb)
 
-> **Independent reimplementation.** This repository is a clean, independent reimplementation of the method described in the
-> paper cited below, written from the paper's text. It is **not** the original authors' code, and it does **not** use the
-> paper's dataset. All quantum components run **on a classical simulator only** (PennyLane `default.qubit`, CPU, 4 qubits, 1 layer per gate by default).
+> **Reference implementation.** This is the reference implementation of my paper (Rishabh Aryan), rebuilt in Python on synthetic data because the original SCADA data is confidential. Results will differ from the published numbers. Authors: Rishabh Aryan (sole author). All quantum components run **on a classical simulator only** (PennyLane `default.qubit`, CPU, 4 qubits, 1 layer per gate by default).
 > Results from this code **will differ** from the published results, and the numbers reported in the paper have **not** been reproduced here.
 
 **Keywords:** physics-informed neural network, quantum LSTM, hybrid classical-quantum, grey wolf optimizer, Lévy flight, chaotic map, metaheuristic, Kolmogorov spectrum, wind speed forecasting, PennyLane, PyTorch
@@ -15,13 +13,13 @@
 
 Rishabh Aryan, "Physics-Informed Hybrid Classical–Quantum LSTM Network for Wind Speed Forecasting, Optimized via a Chaotic Lévy-Flight Quantum-Inspired Grey Wolf Metaheuristic," *Dianwang Jishu / Power System Technology*, Vol. 50, Issue 3, pp. 245–279, July 2026.
 
-Full credit for the method goes to the paper's authors. Any simplifications or mistakes in this reimplementation are mine.
+Authors: Rishabh Aryan (sole author). Any simplifications in this Python rebuild are noted under Limitations.
 
 ## Method · 方法
 
 1. **HCQ-LSTM cell:** a standard LSTM cell in which each of the four gates (input, forget, output, candidate) gets an extra term from its own small variational quantum circuit (angle encoding, RY/RZ, CNOT ring, ⟨Z⟩ read-out, then a linear map back to the hidden size).
-2. **Physics-informed loss:** MSE plus three simplified penalties: a log-law consistency term (with a single hub height it reduces to staying close to the last observed speed), a mean-momentum term penalising unphysically large one-step accelerations, and a **spectral term** pushing the log-log slope of the forecast power spectrum toward Kolmogorov's −5/3.
-3. **CLQGWO:** a grey wolf optimiser with tent-map chaotic initialisation, quantum-rotation-gate position perturbation and Lévy-flight exploration. It tunes hidden size, learning rate and the three physics-loss weights (`--tune`).
+2. **Physics-informed loss:** MSE plus three simplified penalties: a log-law consistency term (with a single hub height it reduces to staying close to the last observed speed), a mean-momentum term penalizing unphysically large one-step accelerations, and a **spectral term** pushing the log-log slope of the forecast power spectrum toward Kolmogorov's −5/3.
+3. **CLQGWO:** a grey wolf optimizer with tent-map chaotic initialization, quantum-rotation-gate position perturbation and Lévy-flight exploration. It tunes hidden size, learning rate and the three physics-loss weights (`--tune`).
 
 These physics terms are simplified versions of the paper's; they are documented in `src/hcq_lstm.py`.
 
@@ -38,7 +36,7 @@ CLQGWO → (hidden, lr, λ1, λ2, λ3)
 
 ## Data · 數據
 
-The original SCADA data used in the paper is confidential and **not publicly available**, so it is not included here (everything in `data/` except the bundled synthetic CSV is git-ignored). The original code was not available either.
+The original SCADA data used in the paper is confidential and **not publicly available**, so it is not included here (everything in `data/` except the bundled synthetic CSV is git-ignored).
 `src/data.py` provides:
 
 - `load_scada_csv(path)`: loads a SCADA-style CSV with columns for timestamp, wind speed (m/s), wind direction (°),
@@ -51,7 +49,7 @@ The original SCADA data used in the paper is confidential and **not publicly ava
 
 **Bundled synthetic dataset:** `data/synthetic/synthetic_scada.csv` (600 rows, 10-minute steps, seed 0) is **synthetic data generated by `scripts/make_synthetic.py`**. It is **not** the confidential SCADA data used in the paper and has no connection to any real wind farm. `train.py` uses it by default. To use your own data locally, pass `--csv path/to/scada.csv`. Anything else you put in `data/` is git-ignored, so real data is never committed.
 
-Features per time step are wind speed, sin/cos of direction, theoretical power and active power (kW/1000), standardised
+Features per time step are wind speed, sin/cos of direction, theoretical power and active power (kW/1000), standardized
 on the training split. The target is wind speed `horizon` steps ahead. The data is split chronologically 70/15/15.
 
 ## How to run · 運行
@@ -119,7 +117,7 @@ pytest -q
 - Four VQCs per time step make training slow; keep look-back and data small on CPU.
 - Simulated quantum circuits scale exponentially with qubit count, so the defaults use few qubits. Larger settings will be slow on CPU.
 
-## Licence · 許可
+## License · 許可
 
 MIT © 2026 Rishabh Aryan. See [LICENSE](LICENSE). The paper itself remains under its publisher's terms.
 
